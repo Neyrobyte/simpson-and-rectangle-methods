@@ -32,6 +32,7 @@ def main():
     }
     method = METHODS[args.method]
     result = method(lambda x: eval(args.func), args.a, args.b, args.n)
+    print(result)
 
     
     

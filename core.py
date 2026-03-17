@@ -14,7 +14,7 @@
 import math
     
 
-def step_dividing(a: int, b: int, n: int):
+def step_dividing(a: float, b: float, n: float):
     h = (b - a) / n
     return h
 
