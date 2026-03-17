@@ -20,31 +20,52 @@ def step_dividing(a: int, b: int, n: int):
 
 
 def rectangle_left(f, a, b, n):
-    # S = h * (y0 + y1 + ... + y(n-1))
     h = step_dividing(a, b, n)
-    return h * sum(f(a + i*h) for i in range(n))
+    s = 0.0
+    x = a
+
+    for _ in range(n):
+        s += f(x)
+        x += h
+
+    return h * s
 
 
 def rectangle_right(f, a, b, n):
-    # S = h * (y1 + y2 + ... + yn)
     h = step_dividing(a, b, n)
-    return h * sum(f(a + i*h) for i in range(1, n+1))
+    s = 0.0
+    x = a + h
+
+    for _ in range(n):
+        s += f(x)
+        x += h
+
+    return h * s
 
 
-def rectangle_mid(f: callable, a, b, n):
-    # S = h * (y0.5 + y1.5 + ... + y(n-0.5))
-    h = step_dividing(a, b, n) / 3
-    return h * sum(f(a + (i + 0.5)*h) for i in range(n))
+def rectangle_mid(f, a, b, n):
+    h = step_dividing(a, b, n)
+    s = 0.0
+    x = a + 0.5 * h
+
+    for _ in range(n):
+        s += f(x)
+        x += h
+
+    return h * s
 
 
 def simpson(f, a, b, n):
-    # S = (h / 3) * (y0 + yn + 2(y2 + y4 + ... + y(n-2)) + 4(y1 + y3 + ... + y(n-1)))
     if n % 2 != 0:
-        return "N – должно быть четным для метода Симпсона."
-    h = step_dividing(a, b, n) / 3
-    s  = f(a) + f(b)
-    
+        raise ValueError("n должно быть четным")
+
+    h = step_dividing(a, b, n)
+    s = f(a) + f(b)
+
+    x = a + h
+
     for i in range(1, n):
-        x = a + i*h
         s += 4*f(x) if i % 2 else 2*f(x)
-    return s * h
+        x += h
+
+    return (h / 3) * s

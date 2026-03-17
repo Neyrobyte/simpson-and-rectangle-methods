@@ -25,13 +25,13 @@ def main():
     # Вычисление значений функции на разбиении
     h = core.step_dividing(args.a, args.b, args.n)
     METHODS = {
-        "left": rectangle_left,
-        "right": rectangle_right,
-        "mid": rectangle_mid,
-        "simpson": simpson
+        "left": core.rectangle_left,
+        "right": core.rectangle_right,
+        "mid": core.rectangle_mid,
+        "simpson": core.simpson
     }
     method = METHODS[args.method]
-    result = method(f, a, b, n)
+    result = method(lambda x: eval(args.func), args.a, args.b, args.n)
 
     
     
