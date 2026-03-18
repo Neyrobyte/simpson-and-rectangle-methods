@@ -1,34 +1,21 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import math
-
-def safe_eval(expr, x):
-    try:
-        return eval(expr, {"math": math, "x": x})
-    except Exception as e:
-        raise
+import core
 
 def calc(event=None):
     try:
+        func_str = func_var.get()
         a = float(a_var.get())
         b = float(b_var.get())
         n = int(n_var.get())
-        if n <= 0:
-            raise ValueError("Число разбиений должно быть положительным")
-
-        expr = func_var.get().strip()
-        if not expr:
-            raise ValueError("Введите выражение для f(x)")
-
-        h = (b - a) / n
-        s = 0.0
-        for i in range(n):
-            x = a + i * h
-            s += safe_eval(expr, x)
-
-        result_var.set(f"{s * h:.8g}")
+        if (n <= 0):
+            raise ValueError("n должно быть положительным целым числом")
+        
+        result = core.simpson(lambda x: eval(func_str), a, b, n)
+        result_var.set(f"{result:.4f}")
     except Exception as e:
-        messagebox.showerror("Ошибка", str(e))
+        messagebox.showerror("Ошибка", f"Некорректный ввод: {e}")
 
 base_color = "#171719"
 alt_color = "#171722"
